@@ -1,14 +1,15 @@
 package rustengwar
 
 import (
-	_ "embed" //embed?
-	"encoding/json"
+	_ "embed" //embed
 	"errors"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
-//go:embed conv/default.json
-var defaultConvJSON []byte
+//go:embed conv/default.yaml
+var defaultConvData []byte
 
 //Converter (Russian to Tengwar)
 type Converter struct {
@@ -21,7 +22,7 @@ func (c *Converter) InitDefault() (err error) {
 		err = errors.New("Converter == nil")
 		return
 	}
-	err = json.Unmarshal(defaultConvJSON, &c.replacements)
+	err = yaml.Unmarshal(defaultConvData, &c.replacements)
 	return
 }
 
@@ -31,6 +32,8 @@ func (c Converter) Convert(russian string) (tengwar string, err error) {
 		err = errors.New("converter not ready")
 		return
 	}
+
+	//TODO: check russian string contains cyrillic only
 
 	str := " " + russian //add initial space for proper conversion
 	for _, x := range c.replacements {
