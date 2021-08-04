@@ -3,6 +3,7 @@ package rustengwar
 import (
 	_ "embed" //embed
 	"errors"
+	"io/ioutil"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -23,6 +24,21 @@ func (c *Converter) InitDefault() (err error) {
 		return
 	}
 	err = yaml.Unmarshal(defaultConvData, &c.replacements)
+	return
+}
+
+//Init from file
+func (c *Converter) Init(filename string) (err error) {
+	if nil == c {
+		err = errors.New("Converter == nil")
+		return
+	}
+
+	data, err := ioutil.ReadFile(filename)
+
+	if err == nil {
+		err = yaml.Unmarshal(data, &c.replacements)
+	}
 	return
 }
 

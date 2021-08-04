@@ -8,7 +8,20 @@ func TestInitDefault(t *testing.T) {
 	var c Converter
 	err := c.InitDefault()
 	if err != nil {
-		t.Error("default settings unmarshal error")
+		t.Error("default settings unmarshal")
+	}
+}
+
+func TestInitFile(t *testing.T) {
+	var c Converter
+	err := c.Init("nonexistent file")
+	if err == nil {
+		t.Error("init from nonexistent file")
+	}
+
+	err = c.Init("./conv/default.yaml")
+	if err != nil {
+		t.Error("init from file")
 	}
 }
 
@@ -25,10 +38,10 @@ func TestConvert(t *testing.T) {
 	var tengwarStr string
 	tengwarStr, err = c.Convert(sampleString)
 	if err != nil {
-		t.Error("convert failed")
+		t.Error("convert")
 	}
 
 	if "`Vj´e" != tengwarStr {
-		t.Error("failed: sample string")
+		t.Error("sample string")
 	}
 }
