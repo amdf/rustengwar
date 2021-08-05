@@ -45,3 +45,15 @@ func TestConvert(t *testing.T) {
 		t.Error("sample string")
 	}
 }
+
+func TestLowerCase(t *testing.T) {
+	var c Converter
+	c.InitDefault()
+
+	str1, _ := c.Convert("ЭЛЬФ")
+	str2, _ := c.Convert("Эльф")
+
+	if str1 != str2 {
+		t.Error("lowercase")
+	}
+}

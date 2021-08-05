@@ -51,7 +51,9 @@ func (c Converter) Convert(russian string) (tengwar string, err error) {
 
 	//TODO: check russian string contains cyrillic only
 
-	str := " " + russian //add initial space for proper conversion
+	str := " " + russian       //add initial space for proper conversion
+	str = strings.ToLower(str) //tengwar has no uppercase
+
 	for _, x := range c.replacements {
 		str = strings.Replace(str, x[0], x[1], -1)
 	}
